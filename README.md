@@ -95,8 +95,8 @@ func step(_ grid: Grid) -> Grid {
 
 
 ## Store
-The `Store<S,A>` comonad is the first thing you reach for.  The Store<S,A>
-comonad is the categorical dual of the State<S,A> monad.  Store has a focus on
+The `Store<S,A>` comonad is the first thing you reach for.  The `Store<S,A>`
+comonad is the categorical dual of the `State<S,A>` monad.  Store has a focus on
 the current position and a mapping for any position to a value.  The
 implementation is fairly straightforward.
 
@@ -131,7 +131,7 @@ extension Store {
 ```
 
 The most complicated point of understanding here (aside from the level of
-abstraction) is the understanding of comonadic `duplicate` (i.e., `cojoin`)
+abstraction) is the intuition around comonadic `duplicate` (i.e., `cojoin`)
 which is needed for the `seek` operation.
 
 `extend` also has a complicated looking implementation, and its lazy
@@ -275,7 +275,7 @@ in dimension or else we won't know how to implement `tabulate` in finite time.
 could also be a dictionary `[Coord: A]` (simplifiable to `Set<Bool>` for the
 case of `BoundedGrid<Bool>`), a quadtree, or any number of alternatives.
 I chose to use a one dimensional array and some indexing math. The important
-part here is the signatures of `index` and `tabulate`. (Note that we are using a
+part here is the signatures of `index` and `tabulate`.
 
 ```swift
 struct BoundedGrid<A>: Representable {
@@ -303,7 +303,7 @@ struct BoundedGrid<A>: Representable {
 
 `index` simply indexes into the grid. `tabulate` constructs a new grid using a
 function `Coord -> A`. This latter part might seem inefficient, but note how it
-is used. `tabulate` is called by `duplicate`, `extend`. We
+is used. `tabulate` is called by `duplicate`, which is called by `extend`. We
 invoke `extend` with the argument `conway` (our step logic). So we are just
 composing the `conway` function over each re-focused grid.  There is some
 wastage here that is worth discussing later.
@@ -377,7 +377,9 @@ Of primary interest here is how `duplicate` works. It uses the underlying
 representable functor's `tabulate` method to build out the grid with all
 possible different focus points. This is also where we construct a lot of
 redundant `BoundedGrid` instances. (Using better copy-on-write patterns or
-persistent data structures might help here.)
+persistent data structures might help here.) This is also how we get
+"memoization for free". By invoking `tabulate`, we are constructing a new
+`BoundedGrid`, thereby avoiding all recompute we saw with the original `Store`.
 
 We can now switch out our implementation.
 
