@@ -393,7 +393,7 @@ func makeGrid(_ state: Set<Coord>) -> Grid {
 
 This version has great performance and flat memory consumption. For all of the
 pointless data copying it does, it's surprisingly fast. That's where this
-exploration ends. I'm left with a few questions for another.
+exploration ends. I'm left with a few questions for another day.
 
 *Questions:*
 - Can we get some easy performance wins with lazy collections / iterators?
