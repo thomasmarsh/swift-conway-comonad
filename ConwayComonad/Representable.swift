@@ -24,30 +24,30 @@ protocol Representable {
 // EXAMPLE: Pair
 
 struct Pair<A> {
-    let left: A
-    let right: A
+    let fst: A
+    let snd: A
+}
+
+extension Pair: Representable {
+    static func tabulate(_ f: (Bool) -> A) -> Pair {
+        Pair(fst: f(true), snd: f(false))
+    }
+
+    func index(_ r: Bool) -> A {
+        r ? self.fst : self.snd
+    }
 }
 
 extension Pair: Equatable where A: Equatable {}
 
-extension Pair: Representable {
-    static func tabulate(_ f: (Bool) -> A) -> Pair {
-        Pair(left: f(true), right: f(false))
-    }
-
-    func index(_ r: Bool) -> A {
-        r ? self.left : self.right
-    }
-}
-
-//let p = Pair(left: "hot", right: "cold")
+//let p = Pair(fst: "hot", snd: "cold")
 //p == Pair.tabulate(p.index)
 
 // ----------------------------------------------------------------
 
-// TODO: curry in this constant
 typealias Bound = (x: Int, y: Int)
 
+// NOTE: global constant
 let BOUND: Bound = (500, 300)
 
 struct BoundedGrid<A>: Representable {

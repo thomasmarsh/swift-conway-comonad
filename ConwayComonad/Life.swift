@@ -16,6 +16,13 @@ struct Coord: Hashable {
     }
 }
 
+func +(
+    lhs: Coord,
+    rhs: Coord
+) -> Coord {
+    Coord(lhs.x + rhs.x, lhs.y + rhs.y)
+}
+
 // -------------------------------------------------------------------------------
 
 // ATTEMPT 1:
@@ -63,18 +70,14 @@ func makeGrid(_ state: Set<Coord>) -> Grid {
         pos: Coord(0,0))
 }
 
+
+let adjacent = [
+    (-1,-1), (0, -1), (1, -1), (-1, 0),
+    (1, 0), (-1, 1), (0, 1), (1, 1)
+].map(Coord.init)
+
 func neighbourCoords(_ c: Coord) -> [Coord] {
-    let x = c.x, y = c.y
-    return [
-        (x + 1, y),
-        (x - 1, y),
-        (x, y + 1),
-        (x, y - 1),
-        (x + 1, y + 1),
-        (x + 1, y - 1),
-        (x - 1, y + 1),
-        (x - 1, y - 1)
-    ].map(Coord.init)
+    adjacent.map { $0 + c }
 }
 
 func conway(grid: Grid) -> Bool {
