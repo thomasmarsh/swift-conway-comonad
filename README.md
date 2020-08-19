@@ -211,7 +211,7 @@ func makeGrid(_ state: Set<Coord>) -> Grid {
 We can confirm this runs much faster, but with unbounded memory growth.
 
 
-# Representable
+## Representable
 I had a hard time getting my head around representable functors. Once I had them
 understood, it was then difficult for me to see what a `RepresentableStore`
 should be.
@@ -264,8 +264,7 @@ let p = Pair(fst: "hot", snd: "cold")
 p == Pair.tabulate(p.index)
 ```
 
-
-# RepresentableStore
+## RepresentableStore
 
 In the Game of Life, our representable functor is a grid. It has to be bounded
 in dimension or else we won't know how to implement `tabulate` in finite time.
