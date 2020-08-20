@@ -66,10 +66,9 @@ typealias Grid = FocusedBoundedGrid<Bool> // i.e., RepresentableStore<Grid<_>, C
 
 func makeGrid(_ state: Set<Coord>) -> Grid {
     Grid(
-        grid: BoundedGrid.tabulate(state.contains),
+        grid: BoundedGrid<Bool>.tabulate(state.contains),
         pos: Coord(0,0))
 }
-
 
 let adjacent = [
     (-1,-1), (0, -1), (1, -1), (-1, 0),

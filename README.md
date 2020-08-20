@@ -18,6 +18,12 @@ first.
 These notes here are to help me remember what I did. Maybe they are useful to
 you too.
 
+Quick start:
+
+```sh
+$ swift run --configuration release
+```
+
 ## Comonadic Life
 To set the stage, we want to capture the essence of the Game of Life in
 simple code. There are two parts to the definition of the game. The first step
@@ -47,7 +53,7 @@ like following where some code has been elided and replaced with `???`:
 // consideration, i.e., a focus.
 func conway(grid: Grid) -> Bool {
     let alive = grid.??? // A boolean indicating if the current point is alive or dead
-    let liveCount = grid.??? // A count of the neighbors that are a live
+    let liveCount = grid.??? // A count of the neighbors that are alive
 
     if      alive  && liveCount < 2  || liveCount > 3 { return false }
     else if alive  && liveCount == 2 || liveCount == 3 { return true }
@@ -271,7 +277,7 @@ in dimension or else we won't know how to implement `tabulate` in finite time.
 (Note the global constant `BOUND` in some of the code.)
 
 `BoundedGrid<A>` is essentially a two dimensional array like `[[A]]`. Note it
-could also be a dictionary `[Coord: A]` (simplifiable to `Set<Bool>` for the
+could also be a dictionary `[Coord: A]` (simplifiable to `Set<Coord>` for the
 case of `BoundedGrid<Bool>`), a quadtree, or any number of alternatives.
 I chose to use a one dimensional array and some indexing math. The important
 part here is the signatures of `index` and `tabulate`.

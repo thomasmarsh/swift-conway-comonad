@@ -42,8 +42,30 @@ for y in 0..<BOUND.y {
     }
 }
 
+import Foundation
+
+struct Timer {
+    var startTime: CFTimeInterval
+
+    init() {
+        self.startTime = CFAbsoluteTimeGetCurrent()
+    }
+
+    mutating func elapsed() -> Double {
+        let current = CFAbsoluteTimeGetCurrent()
+        let elapsed = current - self.startTime
+//        self.startTime = current
+        return Double(elapsed)
+    }
+}
+
+var i = 0
+var timer = Timer()
 var current = makeGrid(initialState)
+render(current)
 while true {
-    render(current)
     current = step(current)
+    render(current)
+    print("Rate: \(Double(i)/timer.elapsed())")
+    i += 1
 }

@@ -48,24 +48,28 @@ extension Pair: Equatable where A: Equatable {}
 typealias Bound = (x: Int, y: Int)
 
 // NOTE: global constant
-let BOUND: Bound = (500, 300)
+let BOUND: Bound = (400, 150)
+let COUNT: Int = BOUND.x * BOUND.y
 
 struct BoundedGrid<A>: Representable {
     let data: [A]
 
+    init(data: [A]) {
+        self.data = data
+    }
+
     func index(_ c: Coord) -> A {
-        let x = mod(c.x, BOUND.x)
-        let y = mod(c.y, BOUND.y)
-        return data[y*BOUND.x+x]
+        return data[c.y*BOUND.x+c.x]
     }
 
     static func tabulate(
         _ desc: (Coord) -> A
     ) -> BoundedGrid {
         var data: [A] = []
+        data.reserveCapacity(COUNT)
         for y in 0..<BOUND.y {
             for x in 0..<BOUND.x {
-                data.append(desc(Coord(x, y)))
+                data.append(desc(Coord(x,y)))
             }
         }
         return BoundedGrid(data: data)
@@ -87,12 +91,17 @@ struct FocusedBoundedGrid<A> {
     let grid: BoundedGrid<A>
     let pos: Coord
 
+    init(grid: BoundedGrid<A>, pos: Coord) {
+        self.grid = grid
+        self.pos = pos
+    }
+
     func peek(_ c: Coord) -> A {
         self.grid.index(c)
     }
 
     // w a -> s -> w a
-    func seek(_ c: Coord) -> Self { duplicate.peek(c) }
+    func seek(_ c: Coord) -> FocusedBoundedGrid<A> { duplicate.peek(c) }
 
     // w a -> (s -> f s) -> f a
     func experiment(_ f: (Coord) -> [Coord]) -> [A] {
