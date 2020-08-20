@@ -5,6 +5,12 @@
 //  Created by Thomas Marsh on 8/18/20.
 //
 
+typealias Bound = (x: Int, y: Int)
+
+// NOTE: global constants
+let BOUND: Bound = (300, 100)
+let COUNT: Int = BOUND.x * BOUND.y
+
 extension Array where Element == (Int, Int) {
     func at(_ x: Int, _ y: Int) -> Set<Coord> {
         self.reduce(into: Set.init()) {
@@ -45,7 +51,7 @@ for y in 0..<BOUND.y {
 import Foundation
 
 struct Timer {
-    var startTime: CFTimeInterval
+    let startTime: CFTimeInterval
 
     init() {
         self.startTime = CFAbsoluteTimeGetCurrent()
@@ -54,7 +60,6 @@ struct Timer {
     mutating func elapsed() -> Double {
         let current = CFAbsoluteTimeGetCurrent()
         let elapsed = current - self.startTime
-//        self.startTime = current
         return Double(elapsed)
     }
 }

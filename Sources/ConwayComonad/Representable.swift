@@ -45,12 +45,6 @@ extension Pair: Equatable where A: Equatable {}
 
 // ----------------------------------------------------------------
 
-typealias Bound = (x: Int, y: Int)
-
-// NOTE: global constant
-let BOUND: Bound = (400, 150)
-let COUNT: Int = BOUND.x * BOUND.y
-
 struct BoundedGrid<A>: Representable {
     let data: [A]
 
@@ -81,7 +75,7 @@ extension BoundedGrid {
     func map<B>(
         _ f: @escaping (A) -> B
     ) -> BoundedGrid<B> {
-        BoundedGrid<B>(data: self.data.map(f))
+        .init(data: self.data.map(f))
     }
 }
 
@@ -114,7 +108,7 @@ extension FocusedBoundedGrid {
     func map<B>(
         _ f: @escaping (A) -> B
     ) -> FocusedBoundedGrid<B> {
-        FocusedBoundedGrid<B>(
+        .init(
             grid: self.grid.map(f),
             pos: self.pos
         )
@@ -135,11 +129,9 @@ extension FocusedBoundedGrid {
 
     // w a -> w (w a)
     var duplicate: FocusedBoundedGrid<FocusedBoundedGrid<A>> {
-        FocusedBoundedGrid<FocusedBoundedGrid<A>>(
+        .init(
             grid: BoundedGrid.tabulate {
-                FocusedBoundedGrid<A>(
-                    grid: self.grid,
-                    pos: $0)
+                .init(grid: self.grid, pos: $0)
             },
             pos: self.pos)
     }

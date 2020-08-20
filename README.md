@@ -25,7 +25,7 @@ $ swift run --configuration release
 ```
 
 ## Comonadic Life
-To set the stage, we want to capture the essence of the Game of Life in
+To set the stage, we want to capture the essence of the [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) in
 simple code. There are two parts to the definition of the game. The first step
 is to define neighboring positions, which are orthogonally and diagonally
 adjacent locations to a point on some grid (also known as the [Moore
@@ -55,12 +55,15 @@ func conway(grid: Grid) -> Bool {
     let alive = grid.??? // A boolean indicating if the current point is alive or dead
     let liveCount = grid.??? // A count of the neighbors that are alive
 
-    if      alive  && liveCount < 2  || liveCount > 3 { return false }
-    else if alive  && liveCount == 2 || liveCount == 3 { return true }
-    else if !alive && liveCount == 3 { return true }
     return alive
+        ? liveCount == 2 || liveCount == 3
+        : liveCount == 3
 }
 ```
+
+It may seem strange to include the focus point in the `Grid` type. We could have equivalently made
+this a function `conway(grid: Grid, focus: Coord) -> Bool`. But we'll see that a pointed
+type (a type which "points" at something or has a focus) is a useful property.
 
 This is the type of problem that comonads are ideally suited for representing.
 If `Grid` is a `Store` comonad then our implementation is now:
@@ -76,10 +79,9 @@ func conway(grid: Grid) -> Bool {
         .experiment(neighbourCoords)
         .reduce(0) { $0 + $1.intValue }
 
-    if      alive  && liveCount < 2  || liveCount > 3 { return false }
-    else if alive  && liveCount == 2 || liveCount == 3 { return true }
-    else if !alive && liveCount == 3 { return true }
     return alive
+        ? liveCount == 2 || liveCount == 3
+        : liveCount == 3
 }
 ```
 

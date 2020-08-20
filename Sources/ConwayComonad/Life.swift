@@ -89,10 +89,9 @@ func conway(grid: Grid) -> Bool {
         .experiment(neighbourCoords)
         .reduce(0) { $0 + $1.intValue }
 
-    if      alive  && liveCount < 2  || liveCount > 3 { return false }
-    else if alive  && liveCount == 2 || liveCount == 3 { return true }
-    else if !alive && liveCount == 3 { return true }
     return alive
+        ? liveCount == 2 || liveCount == 3
+        : liveCount == 3
 }
 
 func step(_ grid: Grid) -> Grid {
