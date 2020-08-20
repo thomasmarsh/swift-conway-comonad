@@ -118,5 +118,4 @@ func render(_ grid: Grid) {
         .joined(separator: "\n")
 
     print("\u{001B}[;H" + str)
-    print("--")
 }

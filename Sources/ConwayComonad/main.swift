@@ -59,6 +59,7 @@ struct Timer {
     }
 }
 
+print("\u{001B}[2J")
 var i = 0
 var timer = Timer()
 var current = makeGrid(initialState)
