@@ -1,6 +1,4 @@
-# swift-conway-comonad
-Conway's game of life in Swift using Comonads and Representable Functors.
-
+# Conway's Game of Life with Comonads and Representable Functors
 This is based primarily on Chris Penner's
 [article](https://chrispenner.ca/posts/conways-game-of-life), in which he
 implements a similar solution in Haskell. There were a few things that were
