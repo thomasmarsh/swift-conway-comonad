@@ -32,8 +32,9 @@ neighbourhood](https://www.conwaylife.com/wiki/Moore_neighbourhood)).
 
 ```swift
 let adjacent = [
-    (-1,-1), (0, -1), (1, -1), (-1, 0),
-    (1, 0), (-1, 1), (0, 1), (1, 1)
+    (-1,-1), (0,-1), (1,-1),
+    (-1, 0),         (1, 0),
+    (-1, 1), (0, 1), (1, 1)
 ].map(Coord.init)
 
 func neighbourCoords(_ c: Coord) -> [Coord] {

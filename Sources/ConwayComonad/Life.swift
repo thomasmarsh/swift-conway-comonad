@@ -71,8 +71,9 @@ func makeGrid(_ state: Set<Coord>) -> Grid {
 }
 
 let adjacent = [
-    (-1,-1), (0, -1), (1, -1), (-1, 0),
-    (1, 0), (-1, 1), (0, 1), (1, 1)
+    (-1,-1), (0,-1), (1,-1),
+    (-1, 0),         (1, 0),
+    (-1, 1), (0, 1), (1, 1)
 ].map(Coord.init)
 
 func neighbourCoords(_ c: Coord) -> [Coord] {
@@ -111,7 +112,7 @@ func render(_ grid: Grid) {
     }
 
     let str = grid.experiment { _ in xs }
-        .map { $0 ? "#" : " " }
+        .map { $0 ? "\u{2587}"  : " " }
         .chunks(of: BOUND.x)
         .map { $0.joined() }
         .joined(separator: "\n")
